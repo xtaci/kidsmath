@@ -27,6 +27,9 @@ func (p *expression) String() string {
 		rhs = "(" + p.rhs.(*expression).String() + ")"
 	}
 
+	if lhs == nil || rhs == nil {
+		println("#############", lhs, rhs, p)
+	}
 	return fmt.Sprintf("%v %v %v", lhs, p.operator, rhs)
 }
 
@@ -107,7 +110,7 @@ func generateExpr(parent []*expression, nestedLevel int) {
 
 	for i := 0; i < len(parent); i++ {
 		parentEval := parent[i].eval
-		var expr *expression
+		expr := polys[i]
 		if parentEval > polys[i].eval {
 			expr = &expression{operator: "+", lhs: polys[i], rhs: (parentEval - polys[i].eval), eval: parentEval}
 		} else if parentEval < polys[i].eval {

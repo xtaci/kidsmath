@@ -16,14 +16,14 @@ type polynomial struct {
 func (p polynomial) String() string {
 	lhs := p.lhs
 	switch p.lhs.(type) {
-	case polynomial:
-		lhs = "(" + p.lhs.(polynomial).String() + ")"
+	case *polynomial:
+		lhs = "(" + p.lhs.(*polynomial).String() + ")"
 	}
 
 	rhs := p.rhs
 	switch p.rhs.(type) {
-	case polynomial:
-		rhs = "(" + p.rhs.(polynomial).String() + ")"
+	case *polynomial:
+		rhs = "(" + p.rhs.(*polynomial).String() + ")"
 	}
 
 	return fmt.Sprintf("%v %v %v", lhs, p.operator, rhs)
@@ -89,7 +89,11 @@ func generate(operator string, count int) (results []polynomial) {
 	return
 }
 
-func polyGenerate(parent []polynomial, nestedlevel int) {
+func polyGenerate(parent []polynomial, nestedLevel int) {
+	if nestedLevel == 0 {
+		return
+	}
+
 	polys_a := generate("+", len(parent)/2)
 	polys_b := generate("*", len(parent)-len(polys_a))
 	polys := append(polys_a, polys_b...)
@@ -98,11 +102,13 @@ func polyGenerate(parent []polynomial, nestedlevel int) {
 		right_or_left := _rand() % 2
 		switch right_or_left {
 		case 0:
-			parent[i].lhs = polys[i]
+			parent[i].lhs = &polys[i]
 		case 1:
-			parent[i].rhs = polys[i]
+			parent[i].rhs = &polys[i]
 		}
 	}
+
+	polyGenerate(polys, nestedLevel-1)
 	return
 }
 

@@ -89,7 +89,7 @@ func generate(operator string, count int) (results []polynomial) {
 	return
 }
 
-func polyGenerate(parent []polynomial, nestedLevel int) {
+func generateExpr(parent []polynomial, nestedLevel int) {
 	if nestedLevel == 0 {
 		return
 	}
@@ -108,7 +108,7 @@ func polyGenerate(parent []polynomial, nestedLevel int) {
 		}
 	}
 
-	polyGenerate(polys, nestedLevel-1)
+	generateExpr(polys, nestedLevel-1)
 	return
 }
 

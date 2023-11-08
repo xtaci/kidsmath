@@ -9,17 +9,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// polyCmd represents the poly command
-var polyCmd = &cobra.Command{
-	Use:   "poly",
-	Short: "generate a random polynomial",
+// exprCmd represents the poly command
+var exprCmd = &cobra.Command{
+	Use:   "expr",
+	Short: "generate a random expression , eg: (1+2) * 3",
 	Run: func(cmd *cobra.Command, args []string) {
 		level, err := cmd.Flags().GetInt("level")
 		if err != nil {
 			panic(err)
 		}
 		quizs := generate("", 100)
-		polyGenerate(quizs, level)
+		generateExpr(quizs, level)
 		for k := range quizs {
 			fmt.Printf("%v = \n", quizs[k])
 		}
@@ -28,7 +28,7 @@ var polyCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(polyCmd)
+	rootCmd.AddCommand(exprCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -39,5 +39,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// polyCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	polyCmd.PersistentFlags().Int("level", 1, "nestedlevel")
+	exprCmd.PersistentFlags().Int("level", 1, "nestedlevel")
 }

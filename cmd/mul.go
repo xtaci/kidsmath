@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -15,7 +14,7 @@ var mulCmd = &cobra.Command{
 	Use:   "mul",
 	Short: "generate multiplication quiz",
 	Run: func(cmd *cobra.Command, args []string) {
-		results := generate("*", 1000)
+		results := generatePrimitive("*", 1000)
 		for k := range results {
 			fmt.Printf("%v = \n", results[k])
 		}

@@ -11,6 +11,7 @@ type polynomial struct {
 	operator string
 	lhs      interface{}
 	rhs      interface{}
+	eval     uint16
 }
 
 func (p polynomial) String() string {
@@ -29,8 +30,7 @@ func (p polynomial) String() string {
 	return fmt.Sprintf("%v %v %v", lhs, p.operator, rhs)
 }
 
-// generate random simple algebra quiz
-func generate(operator string, count int) (results []polynomial) {
+func generatePrimitive(operator string, count int) (results []*polynomial) {
 	for i := 0; i < count; i++ {
 	RETRY:
 		var a, b, f uint16
@@ -55,14 +55,17 @@ func generate(operator string, count int) (results []polynomial) {
 		}
 
 		var flag string
+		var eval uint16
 		switch f {
 		case 0:
 			flag = "+"
+			eval = a + b
 		case 1:
 			flag = "-"
 			if a < b {
 				b, a = a, b
 			}
+			eval = a - b
 		case 2:
 			flag = "×"
 
@@ -74,37 +77,49 @@ func generate(operator string, count int) (results []polynomial) {
 				}
 			}
 
+			eval = a * b
+
 		case 3:
 			flag = "÷"
 			b %= 10
+			if b == 0 {
+				b++
+			}
 			a *= b
+			eval = a / b
 		}
 
 		if a <= 1 || b <= 1 {
 			goto RETRY
 		}
 
-		results = append(results, polynomial{operator: flag, lhs: a, rhs: b})
+		results = append(results, &polynomial{operator: flag, lhs: a, rhs: b, eval: eval})
 	}
 	return
 }
 
-func generateExpr(parent []polynomial, nestedLevel int) {
+func generateExpr(parent []*polynomial, nestedLevel int) {
 	if nestedLevel == 0 {
 		return
 	}
 
-	polys_a := generate("+", len(parent)/2)
-	polys_b := generate("*", len(parent)-len(polys_a))
-	polys := append(polys_a, polys_b...)
+	polys := generatePrimitive("", len(parent))
 
 	for i := 0; i < len(parent); i++ {
-		right_or_left := _rand() % 2
-		switch right_or_left {
+		parentEval := parent[i].eval
+		var expr *polynomial
+		fmt.Println(parentEval, polys[i].eval)
+		if parentEval > polys[i].eval {
+			expr = &polynomial{operator: "+", lhs: polys[i], rhs: (parentEval - polys[i].eval), eval: parentEval}
+		} else if parentEval < polys[i].eval {
+			expr = &polynomial{operator: "-", lhs: polys[i], rhs: (polys[i].eval - parentEval), eval: parentEval}
+		}
+
+		switch _rand() % 2 {
 		case 0:
-			parent[i].lhs = &polys[i]
+			parent[i].lhs = expr
 		case 1:
-			parent[i].rhs = &polys[i]
+			parent[i].rhs = expr
 		}
 	}
 

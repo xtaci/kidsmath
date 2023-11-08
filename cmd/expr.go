@@ -18,7 +18,7 @@ var exprCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		quizs := generate("", 100)
+		quizs := generatePrimitive("", 100)
 		generateExpr(quizs, level)
 		for k := range quizs {
 			fmt.Printf("%v = \n", quizs[k])

@@ -27,9 +27,6 @@ func (p *expression) String() string {
 		rhs = "(" + p.rhs.(*expression).String() + ")"
 	}
 
-	if lhs == nil || rhs == nil {
-		println("#############", lhs, rhs, p)
-	}
 	return fmt.Sprintf("%v %v %v", lhs, p.operator, rhs)
 }
 

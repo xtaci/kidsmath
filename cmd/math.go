@@ -104,7 +104,7 @@ func generateExpr(parent []*expression, nestedLevel int) {
 		return
 	}
 
-	polys := generatePrimitive("", len(parent))
+	exprs := generatePrimitive("", len(parent))
 
 	for i := 0; i < len(parent); i++ {
 
@@ -114,11 +114,11 @@ func generateExpr(parent []*expression, nestedLevel int) {
 			parentEval = parent[i].rhs.(uint16)
 		}
 
-		expr := polys[i]
-		if parentEval > polys[i].eval {
-			expr = &expression{operator: "+", lhs: polys[i], rhs: (parentEval - polys[i].eval), eval: parentEval}
-		} else if parentEval < polys[i].eval {
-			expr = &expression{operator: "-", lhs: polys[i], rhs: (polys[i].eval - parentEval), eval: parentEval}
+		expr := exprs[i]
+		if parentEval > exprs[i].eval {
+			expr = &expression{operator: "+", lhs: exprs[i], rhs: (parentEval - exprs[i].eval), eval: parentEval}
+		} else if parentEval < exprs[i].eval {
+			expr = &expression{operator: "-", lhs: exprs[i], rhs: (exprs[i].eval - parentEval), eval: parentEval}
 		}
 
 		switch r {
@@ -130,7 +130,7 @@ func generateExpr(parent []*expression, nestedLevel int) {
 
 	}
 
-	generateExpr(polys, nestedLevel-1)
+	generateExpr(exprs, nestedLevel-1)
 	return
 }
 

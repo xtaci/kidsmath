@@ -89,6 +89,7 @@ func generatePrimitive(operator string, count int) (results []*expression) {
 				b++
 			}
 			a *= b
+
 			eval = a / b
 		}
 
@@ -109,7 +110,13 @@ func generateExpr(parent []*expression, nestedLevel int) {
 	polys := generatePrimitive("", len(parent))
 
 	for i := 0; i < len(parent); i++ {
-		parentEval := parent[i].eval
+
+		r := _rand() % 2
+		parentEval := parent[i].lhs.(uint16)
+		if r == 1 {
+			parentEval = parent[i].rhs.(uint16)
+		}
+
 		expr := polys[i]
 		if parentEval > polys[i].eval {
 			expr = &expression{operator: "+", lhs: polys[i], rhs: (parentEval - polys[i].eval), eval: parentEval}
@@ -117,12 +124,13 @@ func generateExpr(parent []*expression, nestedLevel int) {
 			expr = &expression{operator: "-", lhs: polys[i], rhs: (polys[i].eval - parentEval), eval: parentEval}
 		}
 
-		switch _rand() % 2 {
+		switch r {
 		case 0:
 			parent[i].lhs = expr
 		case 1:
 			parent[i].rhs = expr
 		}
+
 	}
 
 	generateExpr(polys, nestedLevel-1)

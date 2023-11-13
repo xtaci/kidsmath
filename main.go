@@ -1,10 +1,9 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package main
 
-import "github.com/xtaci/priv/cmd"
+import "github.com/xtaci/kidsmath/cmd"
 
 func main() {
 	cmd.Execute()

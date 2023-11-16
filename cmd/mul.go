@@ -14,7 +14,8 @@ var mulCmd = &cobra.Command{
 	Use:   "mul",
 	Short: "generate multiplication quiz",
 	Run: func(cmd *cobra.Command, args []string) {
-		results := generatePrimitive("*", 1000)
+		m, n := _parsePattern(cmd.Flags())
+		results := generatePrimitive("*", 100, n, m)
 		for k := range results {
 			fmt.Printf("%v = \n", results[k])
 		}

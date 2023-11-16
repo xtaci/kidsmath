@@ -1,16 +1,17 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
+	"log"
 	"os"
+	"regexp"
+	"strconv"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
-
-
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -46,6 +47,24 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().String("pattern", "100x10", "defines the boundary of binary-operations")
 }
 
+func _parsePattern(flags *pflag.FlagSet) (m int, n int) {
+	pattern, _ := flags.GetString("pattern")
+	patternMatcher := regexp.MustCompile(`([0-9]*)x([0-9]*)`)
+	matches := patternMatcher.FindStringSubmatch(pattern)
 
+	n, err := strconv.Atoi(matches[1])
+	if err != nil {
+		panic(err)
+	}
+
+	m, err = strconv.Atoi(matches[2])
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println("M, N", m, n)
+	return m, n
+}

@@ -15,7 +15,8 @@ var basicCmd = &cobra.Command{
 	Short: "basic math",
 	Long:  `generate random (+ - * /) math with number`,
 	Run: func(cmd *cobra.Command, args []string) {
-		results := generatePrimitive("", 1000)
+		m, n := _parsePattern(cmd.Flags())
+		results := generatePrimitive("", 100, n, m)
 		for k := range results {
 			fmt.Printf("%v = \n", results[k])
 		}
@@ -29,7 +30,7 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// basicCmd.PersistentFlags().String("foo", "", "A help for foo")
+	//basicCmd.PersistentFlags().String("pattern", "1x2", "defines the pattern of binary-operations")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

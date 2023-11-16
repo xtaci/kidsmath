@@ -73,6 +73,10 @@ func generatePrimitive(operator string, count int, n int, m int) (results []*exp
 
 		case 3:
 			flag = "÷"
+			if a < b {
+				a, b = b, a
+			}
+
 			a = b * (a / b)
 			eval = a / b
 		}

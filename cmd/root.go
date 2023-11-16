@@ -65,6 +65,6 @@ func _parsePattern(flags *pflag.FlagSet) (m int, n int) {
 		panic(err)
 	}
 
-	log.Println("M, N", m, n)
+	log.Printf("N=%v, M=%v", n, m)
 	return m, n
 }

@@ -16,7 +16,8 @@ var basicCmd = &cobra.Command{
 	Long:  `generate random (+ - * /) math with number`,
 	Run: func(cmd *cobra.Command, args []string) {
 		m, n := _parsePattern(cmd.Flags())
-		results := generatePrimitive("", 100, n, m)
+		maxdev := _parseMaxdev(cmd.Flags())
+		results := generatePrimitive("", 100, n, m, maxdev)
 		for k := range results {
 			fmt.Printf("%v = \n", results[k])
 		}

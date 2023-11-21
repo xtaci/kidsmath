@@ -30,14 +30,14 @@ func (p *expression) String() string {
 	return fmt.Sprintf("%v %v %v", lhs, p.operator, rhs)
 }
 
-func generatePrimitive(operator string, count int, n int, m int) (results []*expression) {
+func generatePrimitive(operator string, count int, n int, m int, maxdev int8) (results []*expression) {
 	for i := 0; i < count; i++ {
 	RETRY:
 		var a, b, f uint16
-		for a < uint16(n)/4 {
+		for a < 1 || a < uint16(n)*uint16(maxdev)/100 {
 			a = _rand() % uint16(n)
 		}
-		for b < uint16(m)/4 {
+		for b < 1 || b < uint16(m)*uint16(maxdev)/100 {
 			b = _rand() % uint16(m)
 		}
 
@@ -79,6 +79,7 @@ func generatePrimitive(operator string, count int, n int, m int) (results []*exp
 				a, b = b, a
 			}
 
+			println(a, b)
 			a = b * (a / b)
 			eval = a / b
 		}
@@ -92,12 +93,12 @@ func generatePrimitive(operator string, count int, n int, m int) (results []*exp
 	return
 }
 
-func generateExpr(parent []*expression, nestedLevel int, n int, m int) {
+func generateExpr(parent []*expression, nestedLevel int, n int, m int, maxdev int8) {
 	if nestedLevel == 0 {
 		return
 	}
 
-	exprs := generatePrimitive("", len(parent), n, m)
+	exprs := generatePrimitive("", len(parent), n, m, maxdev)
 
 	for i := 0; i < len(parent); i++ {
 
@@ -123,7 +124,7 @@ func generateExpr(parent []*expression, nestedLevel int, n int, m int) {
 
 	}
 
-	generateExpr(exprs, nestedLevel-1, n, m)
+	generateExpr(exprs, nestedLevel-1, n, m, maxdev)
 	return
 }
 

@@ -48,6 +48,7 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.PersistentFlags().String("pattern", "100x10", "defines the boundary of binary-operations")
+	rootCmd.PersistentFlags().Int8("maxdev", 50, "defines max deviation in percentile of the generated number, 1-99")
 }
 
 func _parsePattern(flags *pflag.FlagSet) (m int, n int) {
@@ -67,4 +68,17 @@ func _parsePattern(flags *pflag.FlagSet) (m int, n int) {
 
 	log.Printf("N=%v, M=%v", n, m)
 	return m, n
+}
+
+func _parseMaxdev(flags *pflag.FlagSet) (maxdev int8) {
+	maxdev, _ = flags.GetInt8("maxdev")
+	if maxdev > 99 {
+		maxdev = 99
+	}
+
+	if maxdev < 1 {
+		maxdev = 1
+	}
+
+	return maxdev
 }

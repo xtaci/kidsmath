@@ -19,8 +19,9 @@ var exprCmd = &cobra.Command{
 			panic(err)
 		}
 		m, n := _parsePattern(cmd.Flags())
-		quizs := generatePrimitive("", 100, m, n)
-		generateExpr(quizs, level, m, n)
+		maxdev := _parseMaxdev(cmd.Flags())
+		quizs := generatePrimitive("", 100, m, n, maxdev)
+		generateExpr(quizs, level, m, n, maxdev)
 		for k := range quizs {
 			fmt.Printf("%v = \n", quizs[k])
 		}

@@ -34,10 +34,10 @@ func generatePrimitive(operator string, count int, n int, m int, maxdev int8) (r
 	for i := 0; i < count; i++ {
 	RETRY:
 		var a, b, f uint16
-		for a < 1 || a < uint16(n)*uint16(maxdev)/100 {
+		for a < 1 || a < uint16(n)*(100-uint16(maxdev))/100 {
 			a = _rand() % uint16(n)
 		}
-		for b < 1 || b < uint16(m)*uint16(maxdev)/100 {
+		for b < 1 || b < uint16(m)*(100-uint16(maxdev))/100 {
 			b = _rand() % uint16(m)
 		}
 

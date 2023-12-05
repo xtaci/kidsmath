@@ -79,7 +79,6 @@ func generatePrimitive(operator string, count int, n int, m int, maxdev int8) (r
 				a, b = b, a
 			}
 
-			println(a, b)
 			a = b * (a / b)
 			eval = a / b
 		}

@@ -1,5 +1,6 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+
 */
 package cmd
 
@@ -12,15 +13,15 @@ import (
 // basicCmd represents the basic command
 var basicCmd = &cobra.Command{
 	Use:   "basic",
-	Short: "basic math",
-	Long:  `generate random (+ - * /) math with number`,
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		m, n := _parsePattern(cmd.Flags())
-		maxdev := _parseMaxdev(cmd.Flags())
-		results := generatePrimitive("", 100, n, m, maxdev)
-		for k := range results {
-			fmt.Printf("%v = \n", results[k])
-		}
+		fmt.Println("basic called")
 	},
 }
 
@@ -31,7 +32,7 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	//basicCmd.PersistentFlags().String("pattern", "1x2", "defines the pattern of binary-operations")
+	// basicCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

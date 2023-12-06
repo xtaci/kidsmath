@@ -11,7 +11,7 @@ import (
 
 // subCmd represents the sub command
 var subCmd = &cobra.Command{
-	Use:   "div",
+	Use:   "sub",
 	Short: "generate substraction quiz",
 	Run: func(cmd *cobra.Command, args []string) {
 		m, n := _parsePattern(cmd.Flags())
